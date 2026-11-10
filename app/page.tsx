@@ -56,7 +56,7 @@ export default function HomePage(): JSX.Element {
         <div className="grid grid-cols-1 gap-6 mb-6">
           <MapView
             selectedScenario={selectedScenario}
-            onScenarioChange={(scenario: EmergencyScenario) => setSelectedScenario(scenario)}
+            onScenarioChange={(scenario) => setSelectedScenario(scenario)}
           />
 
           <DroneFeed
