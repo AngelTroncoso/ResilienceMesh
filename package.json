@@ -1,0 +1,28 @@
+{
+  "name": "desastres",
+  "version": "1.0.0",
+  "description": "ResilienceMesh Chile: Malla Agéntica de Respuesta ante Emergencias con Drones",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "keywords": [
+    "resiliencemesh",
+    "drones",
+    "emergency",
+    "disaster-response",
+    "agentic",
+    "nextjs",
+    "leaflet"
+  ],
+  "author": "ResilienceMesh Architecture",
+  "license": "MIT",
+  "dependencies": {
+    "next": "^14.2.35",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}
