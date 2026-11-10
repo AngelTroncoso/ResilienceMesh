@@ -2,10 +2,6 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  experimental: {
-    appRouter: true,
-    appPath: "app",
-  },
   typescript: {
     // !! WARN !!
     // Dangerously allow incomplete type choice in development mode

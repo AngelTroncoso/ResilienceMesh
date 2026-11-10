@@ -1,3 +1,5 @@
+"use client";
+
 import { ReactNode } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents, Circle } from "react-leaflet";
 import "leaflet/dist/leaflet.css";

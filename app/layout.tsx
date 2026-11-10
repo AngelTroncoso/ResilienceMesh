@@ -10,6 +10,8 @@ import { MeshHealthPanel } from "@/components/dashboard/MeshHealthPanel";
 import { MetricsPanel } from "@/components/dashboard/MetricsPanel";
 import type { EmergencyScenario } from "@/types";
 
+"use client";
+
 export const metadata = {
   title: "ResilienceMesh Chile - Centro de Mando de Emergencias",
   description: "Sistema de respuesta ante desastres con malla agéntica de drones",

@@ -1,3 +1,5 @@
+"use client";
+
 import { ReactNode } from "react";
 import type { EmergencyScenario } from "@/types";
 import { useState } from "react";
