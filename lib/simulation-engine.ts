@@ -155,9 +155,9 @@ function generateMeshEvents(): void {
 }
 
 /** Toggle play/pause */
-export function toggleSimulation() {
+export function toggleSimulation(): { mode: SimulationMode; running: boolean } {
   simState.running = !simState.running;
-  const mode = simState.running ? "running" : "paused";
+  const mode: SimulationMode = simState.running ? "auto" : "paused";
 
   addEvent({
     id: `EVT-START-${Date.now()}`,
