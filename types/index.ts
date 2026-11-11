@@ -30,6 +30,53 @@ export interface ScenarioConfig {
   drones: string[]; // Drone IDs assigned to this scenario
 }
 
+// --- Protocolos de Respuesta ---
+export type DroneTask = 
+  | "search-and-scan"
+  | "thermal-detection"
+  | "victim-communication"
+  | "relay-communications"
+  | "aerial-surveillance"
+  | "structural-assessment"
+  | "water-detection"
+  | "evacuation-guidance"
+  | "medical-supply-drop"
+  | "perimeter-mapping";
+
+export interface DroneAssignment {
+  droneId: string;
+  role: DroneRole;
+  task: DroneTask;
+  priority: "critical" | "high" | "medium" | "low";
+  procedure: string; // Descripción del procedimiento
+  estimatedDuration: number; // minutos
+  status: "assigned" | "in-progress" | "completed" | "failed";
+}
+
+export interface EmergencyProtocol {
+  scenarioType: EmergencyScenario;
+  name: string;
+  description: string;
+  requiredDrones: {
+    search: number;
+    thermal: number;
+    vocal: number;
+    relay: number;
+  };
+  phaseSequence: ProtocolPhase[];
+  estimatedResponseTime: number; // minutos
+  successCriteria: string[];
+}
+
+export interface ProtocolPhase {
+  id: string;
+  name: string;
+  description: string;
+  duration: number; // minutos
+  assignments: DroneAssignment[];
+  dependencies?: string[]; // IDs de fases previas requeridas
+}
+
 // --- Tipos de Drones ---
 export type DroneRole = "search" | "thermal" | "vocal" | "relay" | "delivery";
 export type DroneStatus = "active" | "low-battery" | "critical-battery" | "offline" | "returning";
@@ -45,6 +92,8 @@ export interface DroneSpec {
   speed: number; // m/s
   meshRange: number; // meters
   payload: string[];
+  currentTask?: DroneTask;
+  assignedPhase?: string;
 }
 
 // --- Flota de Drones (Seed Data) ---
@@ -120,7 +169,7 @@ export interface DroneTelemetry {
 export type SystemEvent = {
   id: string;
   timestamp: number;
-  type: "battery-low" | "node-offline" | "consensus-reached" | "decision-made" | "victim-updated";
+  type: "battery-low" | "node-offline" | "consensus-reached" | "decision-made" | "victim-updated" | "phase-completed" | "task-assigned";
   severity: "info" | "warning" | "critical";
   message: string;
   source: string;
@@ -149,4 +198,6 @@ export interface SimulationEngineState {
   meshHealth: MeshHealth;
   scenario: EmergencyScenario;
   timeScale: number;
+  activeProtocol?: EmergencyProtocol;
+  currentPhase?: string;
 }

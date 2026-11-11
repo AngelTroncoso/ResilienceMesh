@@ -1,0 +1,480 @@
+/**
+ * Protocolos de Respuesta ante Emergencias
+ * Define procedimientos específicos para cada tipo de desastre
+ */
+
+import type { EmergencyProtocol, EmergencyScenario } from "@/types";
+
+export const emergencyProtocols: Record<EmergencyScenario, EmergencyProtocol> = {
+  "incendio-valparaiso": {
+    scenarioType: "incendio-valparaiso",
+    name: "Protocolo Incendio Forestal",
+    description: "Respuesta coordinada para incendios forestales urbanos con múltiples focos",
+    requiredDrones: {
+      search: 3,
+      thermal: 2,
+      vocal: 2,
+      relay: 1,
+    },
+    estimatedResponseTime: 45,
+    successCriteria: [
+      "Mapeo completo del perímetro de fuego",
+      "Identificación de todas las víctimas en zona de riesgo",
+      "Evacuación coordinada completada",
+      "Comunicación estable con bomberos",
+    ],
+    phaseSequence: [
+      {
+        id: "phase-1-reconnaissance",
+        name: "Fase 1: Reconocimiento Aéreo",
+        description: "Evaluación inicial del perímetro y detección de focos",
+        duration: 10,
+        assignments: [
+          {
+            droneId: "drone-search-1",
+            role: "search",
+            task: "aerial-surveillance",
+            priority: "critical",
+            procedure: "Sobrevolar perímetro a 150m de altitud, capturar imágenes RGB cada 5 seg, identificar rutas de evacuación viables",
+            estimatedDuration: 10,
+            status: "assigned",
+          },
+          {
+            droneId: "drone-thermal-1",
+            role: "thermal",
+            task: "thermal-detection",
+            priority: "critical",
+            procedure: "Escaneo térmico sistemático, detectar focos de calor >300°C, mapear frentes de avance del fuego",
+            estimatedDuration: 10,
+            status: "assigned",
+          },
+          {
+            droneId: "drone-relay-1",
+            role: "relay",
+            task: "relay-communications",
+            priority: "high",
+            procedure: "Mantener posición elevada (200m) como nodo central mesh, retransmitir datos a centro de comando",
+            estimatedDuration: 45,
+            status: "assigned",
+          },
+        ],
+      },
+      {
+        id: "phase-2-victim-search",
+        name: "Fase 2: Búsqueda y Localización",
+        description: "Identificación de personas atrapadas o en peligro",
+        duration: 15,
+        dependencies: ["phase-1-reconnaissance"],
+        assignments: [
+          {
+            droneId: "drone-search-2",
+            role: "search",
+            task: "search-and-scan",
+            priority: "critical",
+            procedure: "Patrón de búsqueda en cuadrícula, detectar movimiento humano, transmitir coordenadas GPS",
+            estimatedDuration: 15,
+            status: "assigned",
+          },
+          {
+            droneId: "drone-thermal-2",
+            role: "thermal",
+            task: "thermal-detection",
+            priority: "critical",
+            procedure: "Detectar firmas térmicas humanas (36-37°C), priorizar zonas de humo denso",
+            estimatedDuration: 15,
+            status: "assigned",
+          },
+          {
+            droneId: "drone-vocal-1",
+            role: "vocal",
+            task: "victim-communication",
+            priority: "high",
+            procedure: "Comunicar instrucciones de evacuación en español, guiar a puntos de encuentro seguros",
+            estimatedDuration: 15,
+            status: "assigned",
+          },
+        ],
+      },
+      {
+        id: "phase-3-evacuation",
+        name: "Fase 3: Coordinación de Evacuación",
+        description: "Guiar a víctimas hacia zonas seguras",
+        duration: 20,
+        dependencies: ["phase-2-victim-search"],
+        assignments: [
+          {
+            droneId: "drone-vocal-2",
+            role: "vocal",
+            task: "evacuation-guidance",
+            priority: "critical",
+            procedure: "Proyectar señales luminosas LED azules, transmitir rutas de escape seguras, confirmar evacuación exitosa",
+            estimatedDuration: 20,
+            status: "assigned",
+          },
+          {
+            droneId: "drone-search-3",
+            role: "search",
+            task: "perimeter-mapping",
+            priority: "medium",
+            procedure: "Actualizar mapa de perímetro cada 5 min, alertar cambios en dirección del fuego",
+            estimatedDuration: 20,
+            status: "assigned",
+          },
+        ],
+      },
+    ],
+  },
+
+  "terremoto-santiago": {
+    scenarioType: "terremoto-santiago",
+    name: "Protocolo Sismo Mayor",
+    description: "Respuesta post-terremoto para búsqueda en edificios colapsados",
+    requiredDrones: {
+      search: 4,
+      thermal: 3,
+      vocal: 2,
+      relay: 2,
+    },
+    estimatedResponseTime: 60,
+    successCriteria: [
+      "Inspección estructural de todos los edificios dañados",
+      "Localización de víctimas atrapadas",
+      "Establecimiento de red de comunicaciones de emergencia",
+      "Triaje completado",
+    ],
+    phaseSequence: [
+      {
+        id: "phase-1-damage-assessment",
+        name: "Fase 1: Evaluación de Daños",
+        description: "Inspección rápida de estructuras colapsadas",
+        duration: 15,
+        assignments: [
+          {
+            droneId: "drone-search-1",
+            role: "search",
+            task: "structural-assessment",
+            priority: "critical",
+            procedure: "Fotografía 360° de edificios dañados, clasificar daños (verde/amarillo/rojo), priorizar estructuras con riesgo de colapso",
+            estimatedDuration: 15,
+            status: "assigned",
+          },
+          {
+            droneId: "drone-search-2",
+            role: "search",
+            task: "aerial-surveillance",
+            priority: "critical",
+            procedure: "Mapeo aéreo de zona afectada, identificar bloqueos de vías, reportar rutas transitables para ambulancias",
+            estimatedDuration: 15,
+            status: "assigned",
+          },
+        ],
+      },
+      {
+        id: "phase-2-victim-location",
+        name: "Fase 2: Localización de Víctimas",
+        description: "Detección de personas bajo escombros",
+        duration: 25,
+        dependencies: ["phase-1-damage-assessment"],
+        assignments: [
+          {
+            droneId: "drone-thermal-1",
+            role: "thermal",
+            task: "thermal-detection",
+            priority: "critical",
+            procedure: "Escaneo térmico de escombros, detectar firmas de vida, triangular ubicación exacta",
+            estimatedDuration: 25,
+            status: "assigned",
+          },
+          {
+            droneId: "drone-thermal-2",
+            role: "thermal",
+            task: "thermal-detection",
+            priority: "critical",
+            procedure: "Segundo barrido térmico para confirmación, priorizar zonas con múltiples señales",
+            estimatedDuration: 25,
+            status: "assigned",
+          },
+          {
+            droneId: "drone-vocal-1",
+            role: "vocal",
+            task: "victim-communication",
+            priority: "high",
+            procedure: "Transmitir mensajes de calma, solicitar respuesta verbal/golpes, confirmar consciencia de víctimas",
+            estimatedDuration: 25,
+            status: "assigned",
+          },
+        ],
+      },
+      {
+        id: "phase-3-rescue-coordination",
+        name: "Fase 3: Coordinación de Rescate",
+        description: "Guiar equipos de rescate a ubicaciones prioritarias",
+        duration: 20,
+        dependencies: ["phase-2-victim-location"],
+        assignments: [
+          {
+            droneId: "drone-relay-1",
+            role: "relay",
+            task: "relay-communications",
+            priority: "critical",
+            procedure: "Red mesh de emergencia, enlace con bomberos y SAMU, transmitir coordenadas GPS precisas",
+            estimatedDuration: 20,
+            status: "assigned",
+          },
+          {
+            droneId: "drone-vocal-2",
+            role: "vocal",
+            task: "evacuation-guidance",
+            priority: "high",
+            procedure: "Dirigir evacuación de edificios dañados pero transitables, proyectar rutas seguras",
+            estimatedDuration: 20,
+            status: "assigned",
+          },
+        ],
+      },
+    ],
+  },
+
+  "inundacion-maule": {
+    scenarioType: "inundacion-maule",
+    name: "Protocolo Inundación",
+    description: "Rescate acuático y evacuación de zonas inundadas",
+    requiredDrones: {
+      search: 3,
+      thermal: 1,
+      vocal: 3,
+      relay: 1,
+    },
+    estimatedResponseTime: 50,
+    successCriteria: [
+      "Mapeo de zonas inundadas",
+      "Localización de personas aisladas en techos",
+      "Coordenadas transmitidas a botes de rescate",
+      "Evacuación preventiva completada",
+    ],
+    phaseSequence: [
+      {
+        id: "phase-1-water-mapping",
+        name: "Fase 1: Mapeo de Inundación",
+        description: "Delimitación de zonas afectadas por agua",
+        duration: 12,
+        assignments: [
+          {
+            droneId: "drone-search-1",
+            role: "search",
+            task: "water-detection",
+            priority: "critical",
+            procedure: "Mapeo de extensión de inundación, medir profundidad aproximada por reflexión, identificar zonas de corriente rápida",
+            estimatedDuration: 12,
+            status: "assigned",
+          },
+          {
+            droneId: "drone-search-2",
+            role: "search",
+            task: "aerial-surveillance",
+            priority: "high",
+            procedure: "Identificar puntos elevados con personas atrapadas, contar víctimas visibles, evaluar accesibilidad",
+            estimatedDuration: 12,
+            status: "assigned",
+          },
+        ],
+      },
+      {
+        id: "phase-2-rescue-prioritization",
+        name: "Fase 2: Priorización de Rescates",
+        description: "Identificar casos más urgentes",
+        duration: 18,
+        dependencies: ["phase-1-water-mapping"],
+        assignments: [
+          {
+            droneId: "drone-thermal-1",
+            role: "thermal",
+            task: "thermal-detection",
+            priority: "high",
+            procedure: "Detectar personas con hipotermia (temperatura corporal <35°C), priorizar por nivel de riesgo",
+            estimatedDuration: 18,
+            status: "assigned",
+          },
+          {
+            droneId: "drone-vocal-1",
+            role: "vocal",
+            task: "victim-communication",
+            priority: "critical",
+            procedure: "Comunicar instrucciones de supervivencia, indicar tiempo estimado de rescate, mantener moral",
+            estimatedDuration: 18,
+            status: "assigned",
+          },
+          {
+            droneId: "drone-vocal-2",
+            role: "vocal",
+            task: "evacuation-guidance",
+            priority: "high",
+            procedure: "Dirigir evacuación preventiva de zonas en riesgo de inundación secundaria",
+            estimatedDuration: 18,
+            status: "assigned",
+          },
+        ],
+      },
+      {
+        id: "phase-3-rescue-guidance",
+        name: "Fase 3: Guía de Rescate",
+        description: "Coordinar con botes y equipos terrestres",
+        duration: 20,
+        dependencies: ["phase-2-rescue-prioritization"],
+        assignments: [
+          {
+            droneId: "drone-search-3",
+            role: "search",
+            task: "perimeter-mapping",
+            priority: "medium",
+            procedure: "Guiar botes de rescate por rutas seguras, alertar obstáculos sumergidos, optimizar trayectorias",
+            estimatedDuration: 20,
+            status: "assigned",
+          },
+          {
+            droneId: "drone-relay-1",
+            role: "relay",
+            task: "relay-communications",
+            priority: "high",
+            procedure: "Enlace comunicaciones entre botes, helicópteros y centro de comando",
+            estimatedDuration: 20,
+            status: "assigned",
+          },
+        ],
+      },
+    ],
+  },
+
+  "errupcion-araucania": {
+    scenarioType: "errupcion-araucania",
+    name: "Protocolo Erupción Volcánica",
+    description: "Evacuación masiva y monitoreo de flujos piroclásticos",
+    requiredDrones: {
+      search: 2,
+      thermal: 3,
+      vocal: 3,
+      relay: 1,
+    },
+    estimatedResponseTime: 40,
+    successCriteria: [
+      "Monitoreo continuo de flujos de lava",
+      "Evacuación de comunidades en radio de peligro",
+      "Detección de cambios en actividad volcánica",
+      "Red de comunicaciones de emergencia activa",
+    ],
+    phaseSequence: [
+      {
+        id: "phase-1-volcanic-monitoring",
+        name: "Fase 1: Monitoreo Volcánico",
+        description: "Vigilancia de flujos piroclásticos y lahares",
+        duration: 15,
+        assignments: [
+          {
+            droneId: "drone-thermal-1",
+            role: "thermal",
+            task: "thermal-detection",
+            priority: "critical",
+            procedure: "Mapeo térmico de flujos de lava, detectar cambios de temperatura >500°C, predecir dirección de avance",
+            estimatedDuration: 15,
+            status: "assigned",
+          },
+          {
+            droneId: "drone-thermal-2",
+            role: "thermal",
+            task: "aerial-surveillance",
+            priority: "critical",
+            procedure: "Monitoreo de columna eruptiva, detectar caída de ceniza, estimar dispersión",
+            estimatedDuration: 15,
+            status: "assigned",
+          },
+          {
+            droneId: "drone-search-1",
+            role: "search",
+            task: "perimeter-mapping",
+            priority: "high",
+            procedure: "Delimitar zonas de exclusión, actualizar perímetro de seguridad cada 5 min",
+            estimatedDuration: 15,
+            status: "assigned",
+          },
+        ],
+      },
+      {
+        id: "phase-2-evacuation-alert",
+        name: "Fase 2: Alerta y Evacuación",
+        description: "Notificación a comunidades en riesgo",
+        duration: 15,
+        dependencies: ["phase-1-volcanic-monitoring"],
+        assignments: [
+          {
+            droneId: "drone-vocal-1",
+            role: "vocal",
+            task: "evacuation-guidance",
+            priority: "critical",
+            procedure: "Transmitir alerta de evacuación inmediata, indicar rutas de escape hacia refugios designados",
+            estimatedDuration: 15,
+            status: "assigned",
+          },
+          {
+            droneId: "drone-vocal-2",
+            role: "vocal",
+            task: "evacuation-guidance",
+            priority: "critical",
+            procedure: "Cobertura de aldeas remotas, instrucciones en español y mapudungun, confirmar evacuación",
+            estimatedDuration: 15,
+            status: "assigned",
+          },
+          {
+            droneId: "drone-vocal-3",
+            role: "vocal",
+            task: "victim-communication",
+            priority: "high",
+            procedure: "Comunicación con rezagados, ofrecer guía por audio bidireccional",
+            estimatedDuration: 15,
+            status: "assigned",
+          },
+        ],
+      },
+      {
+        id: "phase-3-safe-corridor",
+        name: "Fase 3: Corredores Seguros",
+        description: "Mantener rutas de evacuación despejadas",
+        duration: 10,
+        dependencies: ["phase-2-evacuation-alert"],
+        assignments: [
+          {
+            droneId: "drone-search-2",
+            role: "search",
+            task: "aerial-surveillance",
+            priority: "high",
+            procedure: "Vigilar rutas de evacuación, reportar bloqueos por caída de ceniza, verificar tránsito vehicular",
+            estimatedDuration: 10,
+            status: "assigned",
+          },
+          {
+            droneId: "drone-relay-1",
+            role: "relay",
+            task: "relay-communications",
+            priority: "critical",
+            procedure: "Enlace con ONEMI, carabineros y bomberos, coordinar llegada de refuerzos",
+            estimatedDuration: 10,
+            status: "assigned",
+          },
+        ],
+      },
+    ],
+  },
+};
+
+// Función helper para obtener protocolo activo
+export function getProtocolForScenario(scenario: EmergencyScenario): EmergencyProtocol {
+  return emergencyProtocols[scenario];
+}
+
+// Función para calcular progreso del protocolo
+export function calculateProtocolProgress(
+  protocol: EmergencyProtocol,
+  completedPhases: string[]
+): number {
+  if (!protocol.phaseSequence.length) return 0;
+  return (completedPhases.length / protocol.phaseSequence.length) * 100;
+}
