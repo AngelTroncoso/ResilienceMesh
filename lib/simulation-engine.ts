@@ -3,12 +3,21 @@
  * Simulador integrado de telemetría en tiempo real via interval/WebSockets simulados
  */
 
-import type { ChileanCoordinate, DroneSpec, SystemEvent, EmergencyScenario } from "@types";
+import type { 
+  ChileanCoordinate, 
+  DroneSpec, 
+  SystemEvent, 
+  EmergencyScenario, 
+  SimulationMode, 
+  SimulationSpeed,
+  DroneTelemetry,
+  Victim,
+  MeshHealth
+} from "@/types";
+import { scenarioConfigs, victimsByScenario, droneFleet } from "@/data/seed-data";
 
 // Estado interno
-type SimState = "running" | "paused" | "stopped";
-
-interface SimulationEngineState {
+export interface SimulationEngineState {
   mode: SimulationMode;
   speed: SimulationSpeed;
   running: boolean;
@@ -22,8 +31,8 @@ interface SimulationEngineState {
 }
 
 const simState: SimulationEngineState = {
-  mode: simulationConfig.mode,
-  speed: simulationConfig.speed,
+  mode: "manual",
+  speed: "normal",
   running: false,
   lastUpdate: Date.now(),
   droneTelemetry: {},
@@ -126,12 +135,12 @@ function addEvent(event: SystemEvent): void {
 
 /** Genera eventos de la red mesh */
 function generateMeshEvents(): void {
-  const types = ["node-offline", "consensus-reached", "decision-made"];
-  const type = types[Math.floor(Math.random() * types.length)];
+  const types: Array<"node-offline" | "consensus-reached" | "decision-made"> = ["node-offline", "consensus-reached", "decision-made"];
+  const type = types[Math.floor(Math.random() * types.length)] as "node-offline" | "consensus-reached" | "decision-made";
   const severityMap: Record<string, "info" | "warning" | "critical"> = {
-    node-offline: "warning",
-    consensus-reached: "info",
-    decision-made: "info",
+    "node-offline": "warning",
+    "consensus-reached": "info",
+    "decision-made": "info",
   };
 
   const event: SystemEvent = {
@@ -199,7 +208,7 @@ export function initSimulation(scenario: EmergencyScenario): void {
   const config = scenarioConfigs[scenario];
   if (config) {
     config.drones.forEach((droneId: string) => {
-      const drone = findDrone(fleet => fleet.search.concat(fleet.vocal, fleet.relay), droneId);
+      const drone = findDrone(droneId);
       if (drone) {
         initDroneTelemetry(drone);
       }

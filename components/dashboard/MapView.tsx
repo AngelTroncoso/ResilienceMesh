@@ -3,10 +3,10 @@
 import { ReactNode } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents, Circle } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import type { DroneSpec, DroneTelemetry, ChileanCoordinate } from "@types";
+import type { DroneSpec, DroneTelemetry, ChileanCoordinate, EmergencyScenario } from "@/types";
 import { StatusIndicator } from "../ui/status-indicator";
 import { ScenarioSelector } from "../ui/scenario-selector";
-import { scenarioConfigs, victimsByScenario, droneFleet } from "../data/seed-data";
+import { scenarioConfigs, victimsByScenario, droneFleet } from "@/data/seed-data";
 
 const attribution =
   '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors';

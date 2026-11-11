@@ -137,3 +137,16 @@ export interface SimulationConfig {
   autoReassignBattery: boolean;
   autoConsensus: boolean;
 }
+
+export interface SimulationEngineState {
+  mode: SimulationMode;
+  speed: SimulationSpeed;
+  running: boolean;
+  lastUpdate: number;
+  droneTelemetry: Record<string, DroneTelemetry>;
+  victims: Victim[];
+  events: SystemEvent[];
+  meshHealth: MeshHealth;
+  scenario: EmergencyScenario;
+  timeScale: number;
+}

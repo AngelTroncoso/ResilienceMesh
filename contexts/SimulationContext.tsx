@@ -5,15 +5,14 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import type {
-  SimulationEngineState,
   SimulationMode,
   SimulationSpeed,
   SystemEvent,
   EmergencyScenario,
   DroneTelemetry,
   Victim,
-} from "@types";
-import { initSimulation, updateSimulation, toggleSimulation, setSpeed, getState, getTelemetry } from "../lib/simulation-engine";
+} from "@/types";
+import { initSimulation, updateSimulation, toggleSimulation, setSpeed, getState, getTelemetry, SimulationEngineState } from "../lib/simulation-engine";
 
 // --- Contextos ---
 

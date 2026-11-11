@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import type { DroneTelemetry, Victim, SystemEvent } from "@types";
+import type { DroneTelemetry, Victim, SystemEvent } from "@/types";
 import { StatusIndicator } from "../ui/status-indicator";
 import { EventsLog } from "../ui/events-log";
 

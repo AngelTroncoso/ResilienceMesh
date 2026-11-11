@@ -1,8 +1,9 @@
 import { ReactNode } from "react";
-import type { SystemEvent, DroneSpec, MeshHealth } from "@types";
+import type { SystemEvent, DroneSpec, MeshHealth, EmergencyScenario } from "@/types";
 import { StatusIndicator } from "../ui/status-indicator";
 import { EventsLog } from "../ui/events-log";
-import { droneFleet } from "../data/seed-data";
+import { EmergencyButton } from "../ui/button";
+import { droneFleet, scenarioConfigs } from "@/data/seed-data";
 
 export function MeshHealthPanel({
   selectedScenario,

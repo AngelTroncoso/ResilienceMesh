@@ -12,13 +12,13 @@ export function ScenarioSelector({
   className?: string;
 }): JSX.Element {
   return (
-    <div className="space-2 {className}">
+    <div className={`space-x-2 ${className || ""}`}>
       {scenarios.map((scenario) => (
         <button
           key={scenario.value}
           type="button"
           className={`
-            inline-flex items-center rounded-md border ${
+            inline-flex items-center rounded-md border px-3 py-1.5 text-sm ${
               selected === scenario.value
                 ? "bg-accent text-accent-foreground"
                 : "text-foreground hover:bg-accent/20"

@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
-import type { Victim, SystemEvent, DroneTelemetry } from "@types";
-import { Recharts } from "recharts";
+import type { Victim, SystemEvent, DroneTelemetry, EmergencyScenario } from "@/types";
 import { EmergencyButton } from "../ui/button";
 import { StatusIndicator } from "../ui/status-indicator";
+import { scenarioConfigs, victimsByScenario } from "@/data/seed-data";
 
 export function MetricsPanel({
   selectedScenario,
@@ -75,26 +75,21 @@ export function MetricsPanel({
         ))}
       </div>
 
-      {/* Gráfico de evolución (Recharts simple) */}
-      <div className="rounded-lg border border-border bg-slate-950 p-6 h-[200px]">
-        <div className="h-full flex items-end justify-between p-4">
-          <span className="text-xs text-slate-400">00:00</span>
-          <div>
-            <Recharts.BarChart data={[]} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
-              <Recharts.XAxis dataKey="name" strokeDasharray="5 5" />
-              <Recharts.YAxis />
-              <Recharts.Bar dataKey="uv" fill="url(#gradient)" />
-              <Recharts.Tooltip />
-              <Recharts.Legend />
-              <defs>
-                <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0" stopColor="#38bdf8" />
-                  <stop offset="1" stopColor="#06b6d4" />
-                </linearGradient>
-              </defs>
-            </Recharts.BarChart>
-          </div>
-          <span className="text-xs text-slate-400">24:00</span>
+      {/* Gráfico de evolución simple */}
+      <div className="rounded-lg border border-border bg-slate-950 p-6 col-span-2">
+        <h4 className="text-sm font-medium text-foreground mb-4">Evolución temporal</h4>
+        <div className="h-[150px] flex items-end justify-between gap-2 p-4">
+          {[65, 72, 80, 85, 90, 87, 92, 88].map((value, idx) => (
+            <div key={idx} className="flex-1 flex flex-col items-center gap-1">
+              <div 
+                className="w-full bg-gradient-to-t from-cyan-600 to-cyan-400 rounded-t"
+                style={{ height: `${value}%` }}
+              />
+              <span className="text-xs text-slate-400">
+                {idx * 3}h
+              </span>
+            </div>
+          ))}
         </div>
       </div>
     </div>
