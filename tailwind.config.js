@@ -30,10 +30,8 @@ module.exports = {
           foreground: "hsl(var(--muted-foreground))",
         },
         accent: {
-          emergency: "hsl(var(--ac-emergency))",
-          telemetry: "hsl(var(--ac-telemetry))",
-          drone: "hsl(var(--ac-drone))",
-          warning: "hsl(var(--ac-warning))",
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
         },
       },
       fontFamily: {
@@ -42,18 +40,5 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    require("tailwindcss-animate"),
-    function ({ addUtilities }) {
-      addUtilities({
-        .bg-grid-pattern: {
-          backgroundImage: "url('/grid-pattern.svg')",
-        },
-        .bg-grid-pattern-dark: {
-          backgroundImage: "url('/grid-pattern-dark.svg')",
-          backgroundSize: "20px 20px",
-        },
-      })
-    },
-  ],
+  plugins: [],
 }
