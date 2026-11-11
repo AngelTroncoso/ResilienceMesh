@@ -59,20 +59,29 @@ export function MetricsPanel({
 
       {/* KPI: Nivel de severidad */}
       <div className="rounded-lg border border-border bg-slate-950 p-6 grid grid-cols-3 gap-2">
-        {["critical", "moderate", "stable"].map((severity) => (
-          <div
-            key={severity}
-            className="flex items-center gap-2"
-          >
-            <StatusIndicator
-              status={severity as "active" | "low-battery" | "critical-battery" | "offline" | "returning"}
-              size="sm"
-            />
-            <span className="text-sm text-slate-300">
-              {severity}: {victims.filter((v) => v.severity === severity).length}
-            </span>
-          </div>
-        ))}
+        {["critical", "moderate", "stable"].map((severity) => {
+          // Mapear severidad de víctimas a status de indicador
+          const statusMap: Record<string, "critical-battery" | "low-battery" | "active"> = {
+            critical: "critical-battery",
+            moderate: "low-battery",
+            stable: "active"
+          };
+          
+          return (
+            <div
+              key={severity}
+              className="flex items-center gap-2"
+            >
+              <StatusIndicator
+                status={statusMap[severity]}
+                size="sm"
+              />
+              <span className="text-sm text-slate-300">
+                {severity}: {victims.filter((v) => v.severity === severity).length}
+              </span>
+            </div>
+          );
+        })}
       </div>
 
       {/* Gráfico de evolución simple */}

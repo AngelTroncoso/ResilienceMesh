@@ -19,7 +19,7 @@ export function StatusIndicator({
     lg: "h-4 w-4" 
   };
   
-  const statusConfig = {
+  const statusConfig: Record<string, { color: string; ring: string; glow: string }> = {
     active: {
       color: "bg-emerald-500",
       ring: "ring-emerald-500/30",
@@ -47,7 +47,8 @@ export function StatusIndicator({
     }
   };
 
-  const config = statusConfig[status];
+  // Fallback seguro si el status no existe
+  const config = statusConfig[status] || statusConfig.offline;
   const shouldPulse = showPulse && (status === "active" || status === "critical-battery");
 
   return (
