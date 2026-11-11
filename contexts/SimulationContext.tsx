@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * Contextos de React para ResilienceMesh Chile
  * Gestión de estado global con simulador integrado
