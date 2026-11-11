@@ -23,13 +23,13 @@ export function MeshHealthPanel({
       ].find((d) => d.id === id);
       return drone;
     })
-    .filter(Boolean);
+    .filter((drone): drone is DroneSpec => drone !== undefined);
 
-  const activeCount = activeDrones?.length || 0;
-  const lowBatteryCount = activeDrones?.filter((d) => d.status === "low-battery")
-    .length || 0;
-  const criticalCount = activeDrones?.filter((d) => d.status === "critical-battery")
-    .length || 0;
+  const activeCount = activeDrones.length;
+  const lowBatteryCount = activeDrones.filter((d) => d.status === "low-battery")
+    .length;
+  const criticalCount = activeDrones.filter((d) => d.status === "critical-battery")
+    .length;
 
   // Estado de la malla
   let meshState: "excellent" | "good" | "degraded" | "critical";
@@ -42,7 +42,7 @@ export function MeshHealthPanel({
     <div className="space-y-6">
       {/* Tarjetas de estado de agentes */}
       <div className="grid grid-cols-2 gap-4">
-        {activeDrones?.map((drone) => (
+        {activeDrones.map((drone) => (
           <div
             key={drone.id}
             className="rounded-lg border p-4 bg-slate-900 flex items-start gap-3"
@@ -62,13 +62,13 @@ export function MeshHealthPanel({
         ))}
 
         {/* Mostrar todos los drones si hay menos de 4 */}
-        {activeDrones?.length < 4 && (
+        {activeDrones.length < 4 && (
           <div
             key="remaining"
             className="rounded-lg border p-4 bg-slate-900/50"
           >
             <p className="text-xs text-slate-500">
-              {activeDrones?.length} de 4 drones mostrados
+              {activeDrones.length} de 4 drones mostrados
             </p>
           </div>
         )}
