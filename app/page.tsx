@@ -3,11 +3,17 @@
 import { ReactNode } from "react";
 import type { EmergencyScenario } from "@/types";
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { ScenarioSelector } from "@/components/ui/scenario-selector";
-import { MapView } from "@/components/dashboard/MapView";
 import { DroneFeed } from "@/components/dashboard/DroneFeed";
 import { MeshHealthPanel } from "@/components/dashboard/MeshHealthPanel";
 import { MetricsPanel } from "@/components/dashboard/MetricsPanel";
+
+// Importación dinámica de MapView para evitar errores de SSR con Leaflet
+const MapView = dynamic(
+  () => import("@/components/dashboard/MapView").then((mod) => mod.MapView),
+  { ssr: false }
+);
 
 export default function HomePage(): JSX.Element {
   const [selectedScenario, setSelectedScenario] = useState<EmergencyScenario>(
