@@ -28,9 +28,6 @@ export function MapView({
         center={[config.center.lat, config.center.lng]}
         zoom={config.zoom}
         className="h-full w-full"
-        whenReady={(map) => {
-          map.target.attributionControl.setPrefix(false);
-        }}
       >
         <TileLayer
           attribution={attribution}
