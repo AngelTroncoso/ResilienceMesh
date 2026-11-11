@@ -46,7 +46,6 @@ export function MapView({
           <Marker
             key={drone.id}
             position={[drone.coordinates.lat, drone.coordinates.lng]}
-            className="text-blue-400"
           >
             <div className="flex flex-col items-center text-xs">
               <StatusIndicator status={drone.status} size="sm" />
@@ -59,7 +58,6 @@ export function MapView({
           <Marker
             key={drone.id}
             position={[drone.coordinates.lat, drone.coordinates.lng]}
-            className="text-red-400"
           >
             <div className="flex flex-col items-center text-xs">
               <span className="mt-1 text-caption">{drone.callSign}</span>
@@ -71,7 +69,6 @@ export function MapView({
           <Marker
             key={drone.id}
             position={[drone.coordinates.lat, drone.coordinates.lng]}
-            className="text-emerald-400"
           >
             <div className="flex flex-col items-center text-xs">
               <span className="mt-1 text-caption">{drone.callSign}</span>
@@ -83,7 +80,6 @@ export function MapView({
           <Marker
             key={drone.id}
             position={[drone.coordinates.lat, drone.coordinates.lng]}
-            className="text-amber-400"
           >
             <div className="flex flex-col items-center text-xs">
               <span className="mt-1 text-caption">{drone.callSign}</span>
@@ -97,7 +93,6 @@ export function MapView({
             <Marker
               key={victim.id}
               position={[victim.coordinates.lat, victim.coordinates.lng]}
-              className="pulse-red-500"
             >
               <Popup>
                 <div className="p-4">
