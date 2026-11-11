@@ -61,7 +61,7 @@ export default function HomePage(): JSX.Element {
 
           <DroneFeed
             selectedDroneId="Malla-Alpha-1"
-            selectedVictim: undefined
+            selectedVictim={undefined}
             onVictimSelect={(victim) => {}}
           />
 

@@ -1,9 +1,10 @@
-/** @type {import('next').NextConfig} */
+import { ReactNode } from "react";
 import "./tailwind.css";
 import "./styles/globals.css";
 
 import { SimulationProvider } from "@/contexts/SimulationContext";
 import { ScenarioSelector } from "@/components/ui/scenario-selector";
+import { StatusIndicator } from "@/components/ui/status-indicator";
 import { MapView } from "@/components/dashboard/MapView";
 import { DroneFeed } from "@/components/dashboard/DroneFeed";
 import { MeshHealthPanel } from "@/components/dashboard/MeshHealthPanel";
@@ -46,7 +47,7 @@ export default function RootLayout({
                     { label: "Inundación Maule", value: "inundacion-maule" },
                     { label: "Erupción Araucanía", value: "errupcion-araucania" },
                   ]}
-                  selected: "incendio-valparaiso"
+                  selected={"incendio-valparaiso"}
                   onSelect={(val) => {}}
                 />
 
@@ -80,7 +81,7 @@ export default function RootLayout({
                   </h2>
                   <DroneFeed
                     selectedDroneId="Malla-Alpha-1"
-                    selectedVictim: undefined
+                    selectedVictim={undefined}
                     onVictimSelect={(victim) => {}}
                   />
                 </div>
