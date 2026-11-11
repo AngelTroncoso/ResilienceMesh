@@ -1,14 +1,15 @@
 import { ReactNode } from "react";
+import type { EmergencyScenario } from "@/types";
 
-export function ScenarioSelector({
+export function ScenarioSelector<T extends string = string>({
   scenarios,
   selected,
   onSelect,
   className,
 }: {
-  scenarios: { label: string; value: string }[];
-  selected: string;
-  onSelect: (value: string) => void;
+  scenarios: { label: string; value: T }[];
+  selected: T;
+  onSelect: (value: T) => void;
   className?: string;
 }): JSX.Element {
   return (
