@@ -12,7 +12,17 @@ import { MetricsPanel } from "@/components/dashboard/MetricsPanel";
 // Importación dinámica de MapView para evitar errores de SSR con Leaflet
 const MapView = dynamic(
   () => import("@/components/dashboard/MapView").then((mod) => mod.MapView),
-  { ssr: false }
+  { 
+    ssr: false,
+    loading: () => (
+      <div className="h-[600px] w-full rounded-lg border border-border bg-slate-900 animate-pulse flex items-center justify-center">
+        <div className="text-slate-400 flex flex-col items-center gap-3">
+          <div className="w-12 h-12 border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin"></div>
+          <p className="text-sm">Cargando mapa táctico...</p>
+        </div>
+      </div>
+    )
+  }
 );
 
 export default function HomePage(): JSX.Element {
@@ -21,61 +31,133 @@ export default function HomePage(): JSX.Element {
   );
 
   const scenarios = [
-    { label: "Incendio Valparaíso", value: "incendio-valparaiso" as EmergencyScenario },
-    { label: "Terremoto Santiago", value: "terremoto-santiago" as EmergencyScenario },
-    { label: "Inundación Maule", value: "inundacion-maule" as EmergencyScenario },
-    { label: "Erupción Araucanía", value: "errupcion-araucania" as EmergencyScenario },
+    { label: "🔥 Incendio Valparaíso", value: "incendio-valparaiso" as EmergencyScenario },
+    { label: "🏢 Terremoto Santiago", value: "terremoto-santiago" as EmergencyScenario },
+    { label: "🌊 Inundación Maule", value: "inundacion-maule" as EmergencyScenario },
+    { label: "🌋 Erupción Araucanía", value: "errupcion-araucania" as EmergencyScenario },
   ];
 
   return (
-    <div className="min-h-screen bg-slate-950">
-      <header className="border-b border-border bg-slate-900/80 backdrop-blur-sm">
-        <div className="max-w-[1600px] mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 rounded-md bg-accent flex items-center justify-center">
-              <svg
-                className="w-6 h-6 text-slate-950"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 12 2"></polygon>
-                <circle cx="12" cy="7" r="4"></circle>
-                <path d="M2 7l2 6h20l2-6"></path>
-              </svg>
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+      {/* Header Profesional */}
+      <header className="border-b border-slate-800 bg-slate-900/95 backdrop-blur-md sticky top-0 z-50 shadow-lg shadow-black/20">
+        <div className="max-w-[1800px] mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            {/* Logo y Título */}
+            <div className="flex items-center gap-4">
+              <div className="w-11 h-11 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-blue-500/25 transition-transform hover:scale-105">
+                <svg
+                  className="w-6 h-6 text-white"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 12 2"></polygon>
+                  <circle cx="12" cy="7" r="4"></circle>
+                  <path d="M2 7l2 6h20l2-6"></path>
+                </svg>
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-white tracking-tight">ResilienceMesh Chile</h1>
+                <p className="text-xs text-slate-400">Centro de Comando de Emergencias</p>
+              </div>
             </div>
-            <h1 className="text-xl font-bold text-foreground">ResilienceMesh Chile</h1>
-          </div>
 
-          <ScenarioSelector
-            scenarios={scenarios}
-            selected={selectedScenario}
-            onSelect={(val) => setSelectedScenario(val)}
-          />
+            {/* Selector de Escenarios */}
+            <div className="flex items-center gap-4">
+              <div className="hidden md:flex items-center gap-2 text-xs text-slate-400">
+                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                <span>Sistema Operativo</span>
+              </div>
+              <ScenarioSelector
+                scenarios={scenarios}
+                selected={selectedScenario}
+                onSelect={(val) => setSelectedScenario(val)}
+              />
+            </div>
+          </div>
         </div>
       </header>
 
-      <main className="max-w-[1600px] mx-auto p-6">
-        <div className="grid grid-cols-1 gap-6 mb-6">
-          <MapView
-            selectedScenario={selectedScenario}
-            onScenarioChange={(scenario) => setSelectedScenario(scenario)}
-          />
-
-          <DroneFeed
-            selectedDroneId="Malla-Alpha-1"
-            selectedVictim={undefined}
-            onVictimSelect={(victim) => {}}
-          />
-
-          <MeshHealthPanel selectedScenario={selectedScenario} />
-
+      {/* Main Dashboard Grid */}
+      <main className="max-w-[1800px] mx-auto p-6 space-y-6">
+        {/* KPIs Row */}
+        <div className="animate-fadeIn">
           <MetricsPanel selectedScenario={selectedScenario} />
         </div>
+
+        {/* Main Content Grid - Responsive 2 columnas en desktop */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Mapa Principal */}
+          <div className="lg:col-span-2 animate-slideUp">
+            <div className="rounded-xl overflow-hidden border border-slate-800 shadow-2xl shadow-black/40">
+              <div className="bg-slate-900/50 backdrop-blur-sm border-b border-slate-800 px-4 py-3">
+                <h2 className="text-sm font-semibold text-slate-200 flex items-center gap-2">
+                  <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                  </svg>
+                  Vista Táctica de Campo
+                </h2>
+              </div>
+              <MapView
+                selectedScenario={selectedScenario}
+                onScenarioChange={(scenario) => setSelectedScenario(scenario)}
+              />
+            </div>
+          </div>
+
+          {/* Panel de Drones */}
+          <div className="animate-slideUp" style={{ animationDelay: "100ms" }}>
+            <div className="rounded-xl overflow-hidden border border-slate-800 bg-slate-900/50 backdrop-blur-sm shadow-xl">
+              <div className="bg-slate-900 border-b border-slate-800 px-4 py-3">
+                <h2 className="text-sm font-semibold text-slate-200 flex items-center gap-2">
+                  <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                  Transmisión en Vivo
+                </h2>
+              </div>
+              <div className="p-4">
+                <DroneFeed
+                  selectedDroneId="Malla-Alpha-1"
+                  selectedVictim={undefined}
+                  onVictimSelect={(victim) => {}}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Panel de Salud de la Malla */}
+          <div className="animate-slideUp" style={{ animationDelay: "200ms" }}>
+            <div className="rounded-xl overflow-hidden border border-slate-800 bg-slate-900/50 backdrop-blur-sm shadow-xl">
+              <div className="bg-slate-900 border-b border-slate-800 px-4 py-3">
+                <h2 className="text-sm font-semibold text-slate-200 flex items-center gap-2">
+                  <svg className="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  Estado de la Red Mesh
+                </h2>
+              </div>
+              <div className="p-4">
+                <MeshHealthPanel selectedScenario={selectedScenario} />
+              </div>
+            </div>
+          </div>
+        </div>
       </main>
+
+      {/* Footer Informativo */}
+      <footer className="mt-12 border-t border-slate-800 bg-slate-900/50 backdrop-blur-sm">
+        <div className="max-w-[1800px] mx-auto px-6 py-4">
+          <div className="flex items-center justify-between text-xs text-slate-500">
+            <p>© 2024 ResilienceMesh Chile - Sistema de Respuesta ante Desastres</p>
+            <p>Última actualización: {new Date().toLocaleTimeString('es-CL')}</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
