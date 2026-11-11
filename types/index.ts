@@ -48,7 +48,7 @@ export interface DroneSpec {
 }
 
 // --- Flota de Drones (Seed Data) ---
-export interface Drone Fleet {
+export interface DroneFleet {
   search: DroneSpec[];
   thermal: DroneSpec[];
   vocal: DroneSpec[];
