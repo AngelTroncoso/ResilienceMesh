@@ -46,7 +46,7 @@ export type DroneTask =
 export interface DroneAssignment {
   droneId: string;
   role: DroneRole;
-  task: DroneTask;
+  task: string; // Descripción de la tarea (puede ser DroneTask o texto libre)
   priority: "critical" | "high" | "medium" | "low";
   procedure: string; // Descripción del procedimiento
   estimatedDuration: number; // minutos
@@ -63,23 +63,27 @@ export interface EmergencyProtocol {
     vocal: number;
     relay: number;
   };
-  phaseSequence: ProtocolPhase[];
+  phases: ProtocolPhase[]; // Array de fases con asignaciones de drones
+  phaseSequence: ProtocolPhase[]; // Alias para compatibilidad
   estimatedResponseTime: number; // minutos
   successCriteria: string[];
 }
 
 export interface ProtocolPhase {
-  id: string;
   name: string;
   description: string;
-  duration: number; // minutos
-  assignments: DroneAssignment[];
+  estimatedDuration: number; // minutos
+  droneAssignments: DroneAssignment[]; // Asignaciones de drones para esta fase
+  // Legacy fields
+  id?: string;
+  duration?: number; // Alias para estimatedDuration
+  assignments?: DroneAssignment[]; // Alias para droneAssignments
   dependencies?: string[]; // IDs de fases previas requeridas
 }
 
 // --- Tipos de Drones ---
 export type DroneRole = "search" | "thermal" | "vocal" | "relay" | "delivery";
-export type DroneStatus = "active" | "low-battery" | "critical-battery" | "offline" | "returning";
+export type DroneStatus = "active" | "low-battery" | "critical-battery" | "offline" | "returning" | "idle";
 
 export interface DroneSpec {
   id: string;

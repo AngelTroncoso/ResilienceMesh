@@ -20,20 +20,21 @@
   "author": "ResilienceMesh Architecture",
   "license": "MIT",
   "dependencies": {
+    "leaflet": "^1.9.4",
+    "lucide-react": "^1.72.0",
     "next": "^14.2.35",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-leaflet": "^4.2.1",
-    "leaflet": "^1.9.4"
+    "react-leaflet": "^4.2.1"
   },
   "devDependencies": {
+    "@types/leaflet": "^1.9.8",
     "@types/node": "^20.0.0",
     "@types/react": "^18.3.0",
     "@types/react-dom": "^18.3.0",
-    "@types/leaflet": "^1.9.8",
-    "typescript": "^5.3.3",
-    "tailwindcss": "^3.4.0",
+    "autoprefixer": "^10.4.16",
     "postcss": "^8.4.32",
-    "autoprefixer": "^10.4.16"
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.3.3"
   }
 }

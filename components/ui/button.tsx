@@ -1,5 +1,36 @@
 import { ReactNode } from "react";
 
+export function Button({
+  children,
+  onClick,
+  className,
+  disabled,
+  ...props
+}: {
+  children: ReactNode;
+  onClick?: () => void;
+  className?: string;
+  disabled?: boolean;
+}): JSX.Element {
+  return (
+    <button
+      className={`
+        inline-flex items-center justify-center rounded-lg font-medium px-4 py-2 text-sm
+        transition-all duration-200 ease-out
+        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900
+        disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed
+        active:scale-95
+        ${className || ""}
+      `}
+      onClick={onClick}
+      disabled={disabled}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+}
+
 export function EmergencyButton({
   children,
   variant = "default",

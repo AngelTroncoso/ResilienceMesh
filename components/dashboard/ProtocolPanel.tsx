@@ -1,22 +1,22 @@
 "use client";
 
-import { ReactNode } from "react";
-import type { EmergencyProtocol, EmergencyScenario, ProtocolPhase } from "@/types";
-import { getProtocolForScenario } from "@/data/emergency-protocols";
+import { useSimulationContext } from "@/contexts/SimulationContext";
 import { StatusIndicator } from "../ui/status-indicator";
 
-export function ProtocolPanel({
-  selectedScenario,
-  currentPhaseId,
-}: {
-  selectedScenario: EmergencyScenario;
-  currentPhaseId?: string;
-}): JSX.Element {
-  const protocol = getProtocolForScenario(selectedScenario);
-  const currentPhaseIndex = protocol.phaseSequence.findIndex(p => p.id === currentPhaseId);
-  const progress = currentPhaseId 
-    ? ((currentPhaseIndex + 1) / protocol.phaseSequence.length) * 100 
-    : 0;
+export function ProtocolPanel(): JSX.Element {
+  const { activeProtocol, currentPhaseIndex, phaseProgress } = useSimulationContext();
+
+  if (!activeProtocol) {
+    return (
+      <div className="text-center py-12 text-slate-500">
+        <p>No hay protocolo activo</p>
+        <p className="text-xs mt-1">Selecciona un escenario para cargar el protocolo</p>
+      </div>
+    );
+  }
+
+  const protocol = activeProtocol;
+  const progress = ((currentPhaseIndex + 1) / protocol.phases.length) * 100;
 
   return (
     <div className="space-y-4">
@@ -70,14 +70,14 @@ export function ProtocolPanel({
 
       {/* Fases del Protocolo */}
       <div className="space-y-3">
-        {protocol.phaseSequence.map((phase, index) => {
-          const isActive = phase.id === currentPhaseId;
+        {protocol.phases.map((phase, index) => {
+          const isActive = index === currentPhaseIndex;
           const isCompleted = currentPhaseIndex > index;
           const isPending = currentPhaseIndex < index;
 
           return (
             <div 
-              key={phase.id}
+              key={phase.name}
               className={`
                 rounded-lg border transition-all duration-300
                 ${isActive ? 'border-blue-500 bg-blue-500/10 shadow-lg shadow-blue-500/20' : ''}
@@ -103,17 +103,33 @@ export function ProtocolPanel({
                       <h4 className="font-semibold text-white">{phase.name}</h4>
                       <p className="text-sm text-slate-400 mt-1">{phase.description}</p>
                       <div className="flex items-center gap-3 mt-2 text-xs text-slate-500">
-                        <span>⏱️ {phase.duration} min</span>
-                        <span>📋 {phase.assignments.length} tareas</span>
+                        <span>⏱️ {phase.estimatedDuration} min</span>
+                        <span>📋 {phase.droneAssignments.length} tareas</span>
                       </div>
                     </div>
                   </div>
                 </div>
 
+                {/* Progreso de Fase Activa */}
+                {isActive && (
+                  <div className="mt-3 mb-3 border-t border-blue-500/20 pt-3">
+                    <div className="flex items-center justify-between text-xs text-slate-400 mb-1">
+                      <span>Progreso de Fase</span>
+                      <span>{Math.round(phaseProgress)}%</span>
+                    </div>
+                    <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+                      <div 
+                        className="h-full bg-gradient-to-r from-blue-500 to-cyan-500 transition-all duration-500"
+                        style={{ width: `${phaseProgress}%` }}
+                      />
+                    </div>
+                  </div>
+                )}
+
                 {/* Asignaciones (solo si está activa) */}
                 {isActive && (
                   <div className="mt-4 space-y-2 border-t border-blue-500/20 pt-3">
-                    {phase.assignments.map((assignment) => (
+                    {phase.droneAssignments.map((assignment) => (
                       <div 
                         key={assignment.droneId}
                         className="bg-slate-900/50 rounded-lg p-3 border border-slate-700/50"
@@ -134,7 +150,7 @@ export function ProtocolPanel({
                             </span>
                           </div>
                           <StatusIndicator 
-                            status={assignment.status === 'completed' ? 'active' : 'low-battery'} 
+                            status="active" 
                             size="sm" 
                           />
                         </div>
@@ -166,16 +182,11 @@ export function ProtocolPanel({
           <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          Criterios de Éxito
+          Criterios de Éxito del Protocolo
         </h4>
-        <ul className="space-y-2">
-          {protocol.successCriteria.map((criterion, index) => (
-            <li key={index} className="flex items-start gap-2 text-sm text-slate-300">
-              <span className="text-emerald-400 mt-0.5">▸</span>
-              <span>{criterion}</span>
-            </li>
-          ))}
-        </ul>
+        <div className="text-sm text-slate-400">
+          {protocol.description}
+        </div>
       </div>
     </div>
   );

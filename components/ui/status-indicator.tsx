@@ -7,7 +7,7 @@ export function StatusIndicator({
   showPulse = true,
   ...props
 }: {
-  status: "active" | "low-battery" | "critical-battery" | "offline" | "returning";
+  status: "active" | "low-battery" | "critical-battery" | "offline" | "returning" | "idle";
   size?: "sm" | "md" | "lg";
   className?: string;
   showPulse?: boolean;
@@ -44,6 +44,11 @@ export function StatusIndicator({
       color: "bg-blue-500",
       ring: "ring-blue-500/30",
       glow: "shadow-blue-500/50"
+    },
+    idle: {
+      color: "bg-slate-600",
+      ring: "ring-slate-600/30",
+      glow: "shadow-slate-600/50"
     }
   };
 

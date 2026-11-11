@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import type { EmergencyScenario } from "@/types";
 import { useState } from "react";
 import dynamic from "next/dynamic";
@@ -9,6 +9,9 @@ import { DroneFeed } from "@/components/dashboard/DroneFeed";
 import { MeshHealthPanel } from "@/components/dashboard/MeshHealthPanel";
 import { MetricsPanel } from "@/components/dashboard/MetricsPanel";
 import { ProtocolPanel } from "@/components/dashboard/ProtocolPanel";
+import { SimulationControlPanel } from "@/components/dashboard/SimulationControlPanel";
+import { TelemetryPanel } from "@/components/dashboard/TelemetryPanel";
+import { useSimulationContext } from "@/contexts/SimulationContext";
 
 // Importación dinámica de MapView para evitar errores de SSR con Leaflet
 const MapView = dynamic(
@@ -30,7 +33,12 @@ export default function HomePage(): JSX.Element {
   const [selectedScenario, setSelectedScenario] = useState<EmergencyScenario>(
     "incendio-valparaiso"
   );
-  const [currentPhase, setCurrentPhase] = useState<string>("phase-1-reconnaissance");
+  const { init } = useSimulationContext();
+
+  // Inicializar simulación cuando cambie el escenario
+  useEffect(() => {
+    init(selectedScenario);
+  }, [selectedScenario, init]);
 
   const scenarios = [
     { label: "🔥 Incendio Valparaíso", value: "incendio-valparaiso" as EmergencyScenario },
@@ -79,8 +87,6 @@ export default function HomePage(): JSX.Element {
                 selected={selectedScenario}
                 onSelect={(val) => {
                   setSelectedScenario(val);
-                  // Resetear a primera fase al cambiar escenario
-                  setCurrentPhase("phase-1-reconnaissance");
                 }}
               />
             </div>
@@ -95,10 +101,35 @@ export default function HomePage(): JSX.Element {
           <MetricsPanel selectedScenario={selectedScenario} />
         </div>
 
-        {/* Main Content Grid - 3 columnas en desktop */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Main Content Grid - 4 columnas en desktop */}
+        <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
+          {/* Columna Izquierda - Controles y Telemetría */}
+          <div className="space-y-6">
+            {/* Control de Simulación */}
+            <div className="animate-slideUp">
+              <SimulationControlPanel />
+            </div>
+
+            {/* Telemetría de Drones */}
+            <div className="animate-slideUp" style={{ animationDelay: "100ms" }}>
+              <div className="rounded-xl overflow-hidden border border-slate-800 bg-slate-900/50 backdrop-blur-sm shadow-xl">
+                <div className="bg-slate-900 border-b border-slate-800 px-4 py-3">
+                  <h2 className="text-sm font-semibold text-slate-200 flex items-center gap-2">
+                    <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    Telemetría
+                  </h2>
+                </div>
+                <div className="max-h-[500px] overflow-y-auto">
+                  <TelemetryPanel />
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Mapa Principal - 2 columnas */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="xl:col-span-2 space-y-6">
             <div className="animate-slideUp">
               <div className="rounded-xl overflow-hidden border border-slate-800 shadow-2xl shadow-black/40">
                 <div className="bg-slate-900/50 backdrop-blur-sm border-b border-slate-800 px-4 py-3">
@@ -147,11 +178,8 @@ export default function HomePage(): JSX.Element {
                     Protocolo de Respuesta
                   </h2>
                 </div>
-                <div className="p-4 max-h-[600px] overflow-y-auto">
-                  <ProtocolPanel 
-                    selectedScenario={selectedScenario}
-                    currentPhaseId={currentPhase}
-                  />
+                <div className="p-4 max-h-[700px] overflow-y-auto">
+                  <ProtocolPanel />
                 </div>
               </div>
             </div>

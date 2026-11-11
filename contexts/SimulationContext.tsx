@@ -13,8 +13,22 @@ import type {
   EmergencyScenario,
   DroneTelemetry,
   Victim,
+  EmergencyProtocol,
 } from "@/types";
-import { initSimulation, updateSimulation, toggleSimulation, setSpeed, getState, getTelemetry, SimulationEngineState } from "../lib/simulation-engine";
+import { 
+  initSimulation, 
+  updateSimulation, 
+  toggleSimulation, 
+  setSpeed, 
+  getState, 
+  getTelemetry,
+  getAllTelemetry,
+  getActiveProtocol,
+  getCurrentPhase,
+  getPhaseProgress,
+  manualAdvancePhase,
+  SimulationEngineState 
+} from "@/lib/simulation-engine";
 
 // --- Contextos ---
 
@@ -28,6 +42,10 @@ type SimulationContextType = {
   getTelemetry: (droneId: string) => DroneTelemetry | undefined;
   getAllTelemetry: () => Record<string, DroneTelemetry>;
   events: SystemEvent[];
+  activeProtocol: EmergencyProtocol | null;
+  currentPhaseIndex: number;
+  phaseProgress: number;
+  advanceToNextPhase: () => void;
 };
 
 const SimulationContext = createContext<SimulationContextType | undefined>(undefined);
@@ -46,40 +64,60 @@ export function SimulationProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<SimulationEngineState>(getState());
   const [events, setEvents] = useState<SystemEvent[]>([]);
 
-  // Efecto: inicializar simulación al montar
+  // Efecto: loop de actualización automática
   useEffect(() => {
-    // No inicializamos automáticamente - el usuario debe elegir escenario
     const updateLoop = setInterval(() => {
-      const newEvents = updateSimulation();
-      setEvents((prev) => {
-        // Fusionar eventos, mantener máximo 50
-        const allEvents = [...prev, ...newEvents].filter(
-          (event, index, self) => self.findIndex((e) => e.id === event.id) === index
-        );
-        return allEvents.length > 50 ? allEvents.slice(-50) : allEvents;
-      });
-    }, state.timeScale || 1000);
+      const newState = getState();
+      setState(newState);
+      
+      if (newState.running) {
+        const newEvents = updateSimulation();
+        
+        if (newEvents.length > 0) {
+          setEvents((prev) => {
+            const allEvents = [...prev, ...newEvents].filter(
+              (event, index, self) => self.findIndex((e) => e.id === event.id) === index
+            );
+            return allEvents.length > 100 ? allEvents.slice(-100) : allEvents;
+          });
+        }
+      }
+    }, 1000); // Actualización cada segundo
 
     return () => clearInterval(updateLoop);
   }, []);
 
-  // Efecto: sincronizar estado con el motor global
-  useEffect(() => {
-    setState(getState());
-  }, []);
-  useEffect(() => {
-    setEvents(state.events);
-  }, [state.events]);
-
-  const contextValue = {
+  const contextValue: SimulationContextType = {
     state,
-    init: (scenario: EmergencyScenario) => initSimulation(scenario),
-    toggle: () => toggleSimulation(),
-    setSpeed: (speed: SimulationSpeed) => setSpeed(speed),
-    update: () => updateSimulation(),
+    init: (scenario: EmergencyScenario) => {
+      initSimulation(scenario);
+      setState(getState());
+      setEvents([]);
+    },
+    toggle: () => {
+      const result = toggleSimulation();
+      setState(getState());
+      return result;
+    },
+    setSpeed: (speed: SimulationSpeed) => {
+      setSpeed(speed);
+      setState(getState());
+    },
+    update: () => {
+      const newEvents = updateSimulation();
+      setState(getState());
+      return newEvents;
+    },
     getTelemetry: (droneId: string) => getTelemetry(droneId),
-    getAllTelemetry: () => getState().droneTelemetry,
+    getAllTelemetry: () => getAllTelemetry(),
     events,
+    activeProtocol: getActiveProtocol(),
+    currentPhaseIndex: state.currentPhaseIndex,
+    phaseProgress: state.phaseProgress,
+    advanceToNextPhase: () => {
+      manualAdvancePhase();
+      setState(getState());
+    },
   };
 
   return (
