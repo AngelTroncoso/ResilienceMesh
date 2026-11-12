@@ -64,7 +64,7 @@ export const scenarioConfigs: Record<EmergencyScenario, ScenarioConfig> = {
   }
 };
 
-// Flota de drones
+// Flota de drones con distribución perimetral
 export const droneFleet = {
   search: [
     {
@@ -74,7 +74,7 @@ export const droneFleet = {
       status: "active" as const,
       battery: 87,
       coordinates: {
-        lat: -33.0472,
+        lat: -33.0372,  // Norte de Valparaíso
         lng: -71.6127,
         city: "Valparaíso",
         region: "Valparaíso"
@@ -91,7 +91,7 @@ export const droneFleet = {
       status: "active" as const,
       battery: 92,
       coordinates: {
-        lat: -33.4489,
+        lat: -33.4289,  // Norte de Santiago
         lng: -70.6693,
         city: "Santiago",
         region: "Metropolitana"
@@ -108,7 +108,7 @@ export const droneFleet = {
       status: "active" as const,
       battery: 89,
       coordinates: {
-        lat: -35.4264,
+        lat: -35.4164,  // Norte de Talca
         lng: -71.6554,
         city: "Talca",
         region: "Maule"
@@ -125,7 +125,7 @@ export const droneFleet = {
       status: "active" as const,
       battery: 85,
       coordinates: {
-        lat: -38.7359,
+        lat: -38.7159,  // Norte de Temuco
         lng: -72.6002,
         city: "Temuco",
         region: "Araucanía"
@@ -145,8 +145,8 @@ export const droneFleet = {
       status: "active" as const,
       battery: 73,
       coordinates: {
-        lat: -33.0482,
-        lng: -71.6137,
+        lat: -33.0472,  // Este de Valparaíso
+        lng: -71.5927,
         city: "Valparaíso",
         region: "Valparaíso"
       },
@@ -162,8 +162,8 @@ export const droneFleet = {
       status: "active" as const,
       battery: 78,
       coordinates: {
-        lat: -33.4499,
-        lng: -70.6703,
+        lat: -33.4489,  // Este de Santiago
+        lng: -70.6393,
         city: "Santiago",
         region: "Metropolitana"
       },
@@ -179,8 +179,8 @@ export const droneFleet = {
       status: "active" as const,
       battery: 75,
       coordinates: {
-        lat: -35.4274,
-        lng: -71.6564,
+        lat: -35.4264,  // Este de Talca
+        lng: -71.6354,
         city: "Talca",
         region: "Maule"
       },
@@ -196,8 +196,8 @@ export const droneFleet = {
       status: "active" as const,
       battery: 72,
       coordinates: {
-        lat: -38.7369,
-        lng: -72.6012,
+        lat: -38.7359,  // Este de Temuco
+        lng: -72.5702,
         city: "Temuco",
         region: "Araucanía"
       },
@@ -216,8 +216,8 @@ export const droneFleet = {
       status: "low-battery" as const,
       battery: 34,
       coordinates: {
-        lat: -33.0462,
-        lng: -71.6117,
+        lat: -33.0572,  // Sur de Valparaíso
+        lng: -71.6127,
         city: "Valparaíso",
         region: "Valparaíso"
       },
@@ -233,8 +233,8 @@ export const droneFleet = {
       status: "active" as const,
       battery: 68,
       coordinates: {
-        lat: -33.4479,
-        lng: -70.6683,
+        lat: -33.4689,  // Sur de Santiago
+        lng: -70.6693,
         city: "Santiago",
         region: "Metropolitana"
       },
@@ -250,8 +250,8 @@ export const droneFleet = {
       status: "active" as const,
       battery: 71,
       coordinates: {
-        lat: -35.4254,
-        lng: -71.6544,
+        lat: -35.4364,  // Sur de Talca
+        lng: -71.6554,
         city: "Talca",
         region: "Maule"
       },
@@ -267,8 +267,8 @@ export const droneFleet = {
       status: "active" as const,
       battery: 65,
       coordinates: {
-        lat: -38.7349,
-        lng: -72.5992,
+        lat: -38.7559,  // Sur de Temuco
+        lng: -72.6002,
         city: "Temuco",
         region: "Araucanía"
       },
@@ -287,8 +287,8 @@ export const droneFleet = {
       status: "active" as const,
       battery: 95,
       coordinates: {
-        lat: -33.0492,
-        lng: -71.6147,
+        lat: -33.0472,  // Oeste de Valparaíso
+        lng: -71.6327,
         city: "Valparaíso",
         region: "Valparaíso"
       },
@@ -304,8 +304,8 @@ export const droneFleet = {
       status: "active" as const,
       battery: 93,
       coordinates: {
-        lat: -33.4509,
-        lng: -70.6713,
+        lat: -33.4489,  // Oeste de Santiago
+        lng: -70.6993,
         city: "Santiago",
         region: "Metropolitana"
       },
@@ -321,8 +321,8 @@ export const droneFleet = {
       status: "active" as const,
       battery: 91,
       coordinates: {
-        lat: -35.4284,
-        lng: -71.6574,
+        lat: -35.4264,  // Oeste de Talca
+        lng: -71.6754,
         city: "Talca",
         region: "Maule"
       },
@@ -338,8 +338,8 @@ export const droneFleet = {
       status: "active" as const,
       battery: 94,
       coordinates: {
-        lat: -38.7379,
-        lng: -72.6022,
+        lat: -38.7359,  // Oeste de Temuco
+        lng: -72.6302,
         city: "Temuco",
         region: "Araucanía"
       },
