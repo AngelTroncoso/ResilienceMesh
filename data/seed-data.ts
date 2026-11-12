@@ -100,6 +100,40 @@ export const droneFleet = {
       speed: 7.2,
       meshRange: 800,
       payload: ["RGB Camera", "GPS", "LoRa Radio"]
+    },
+    {
+      id: "drone-search-3",
+      callSign: "Malla-Alpha-3",
+      role: "search" as const,
+      status: "active" as const,
+      battery: 89,
+      coordinates: {
+        lat: -35.4264,
+        lng: -71.6554,
+        city: "Talca",
+        region: "Maule"
+      },
+      altitude: 110,
+      speed: 8.0,
+      meshRange: 800,
+      payload: ["RGB Camera", "GPS", "LoRa Radio"]
+    },
+    {
+      id: "drone-search-4",
+      callSign: "Malla-Alpha-4",
+      role: "search" as const,
+      status: "active" as const,
+      battery: 85,
+      coordinates: {
+        lat: -38.7359,
+        lng: -72.6002,
+        city: "Temuco",
+        region: "Araucanía"
+      },
+      altitude: 115,
+      speed: 7.8,
+      meshRange: 800,
+      payload: ["RGB Camera", "GPS", "LoRa Radio"]
     }
   ] as DroneSpec[],
   
@@ -118,6 +152,57 @@ export const droneFleet = {
       },
       altitude: 150,
       speed: 6.8,
+      meshRange: 800,
+      payload: ["Thermal Camera", "GPS", "LoRa Radio"]
+    },
+    {
+      id: "drone-thermal-2",
+      callSign: "Malla-Bravo-2",
+      role: "thermal" as const,
+      status: "active" as const,
+      battery: 78,
+      coordinates: {
+        lat: -33.4499,
+        lng: -70.6703,
+        city: "Santiago",
+        region: "Metropolitana"
+      },
+      altitude: 145,
+      speed: 7.0,
+      meshRange: 800,
+      payload: ["Thermal Camera", "GPS", "LoRa Radio"]
+    },
+    {
+      id: "drone-thermal-3",
+      callSign: "Malla-Bravo-3",
+      role: "thermal" as const,
+      status: "active" as const,
+      battery: 75,
+      coordinates: {
+        lat: -35.4274,
+        lng: -71.6564,
+        city: "Talca",
+        region: "Maule"
+      },
+      altitude: 140,
+      speed: 6.9,
+      meshRange: 800,
+      payload: ["Thermal Camera", "GPS", "LoRa Radio"]
+    },
+    {
+      id: "drone-thermal-4",
+      callSign: "Malla-Bravo-4",
+      role: "thermal" as const,
+      status: "active" as const,
+      battery: 72,
+      coordinates: {
+        lat: -38.7369,
+        lng: -72.6012,
+        city: "Temuco",
+        region: "Araucanía"
+      },
+      altitude: 138,
+      speed: 6.7,
       meshRange: 800,
       payload: ["Thermal Camera", "GPS", "LoRa Radio"]
     }
@@ -140,6 +225,57 @@ export const droneFleet = {
       speed: 5.5,
       meshRange: 600,
       payload: ["Speaker", "Microphone", "GPS", "LoRa Radio"]
+    },
+    {
+      id: "drone-vocal-2",
+      callSign: "Malla-Charlie-2",
+      role: "vocal" as const,
+      status: "active" as const,
+      battery: 68,
+      coordinates: {
+        lat: -33.4479,
+        lng: -70.6683,
+        city: "Santiago",
+        region: "Metropolitana"
+      },
+      altitude: 85,
+      speed: 5.8,
+      meshRange: 600,
+      payload: ["Speaker", "Microphone", "GPS", "LoRa Radio"]
+    },
+    {
+      id: "drone-vocal-3",
+      callSign: "Malla-Charlie-3",
+      role: "vocal" as const,
+      status: "active" as const,
+      battery: 71,
+      coordinates: {
+        lat: -35.4254,
+        lng: -71.6544,
+        city: "Talca",
+        region: "Maule"
+      },
+      altitude: 82,
+      speed: 5.6,
+      meshRange: 600,
+      payload: ["Speaker", "Microphone", "GPS", "LoRa Radio"]
+    },
+    {
+      id: "drone-vocal-4",
+      callSign: "Malla-Charlie-4",
+      role: "vocal" as const,
+      status: "active" as const,
+      battery: 65,
+      coordinates: {
+        lat: -38.7349,
+        lng: -72.5992,
+        city: "Temuco",
+        region: "Araucanía"
+      },
+      altitude: 78,
+      speed: 5.4,
+      meshRange: 600,
+      payload: ["Speaker", "Microphone", "GPS", "LoRa Radio"]
     }
   ] as DroneSpec[],
   
@@ -157,6 +293,57 @@ export const droneFleet = {
         region: "Valparaíso"
       },
       altitude: 200,
+      speed: 3.0,
+      meshRange: 1200,
+      payload: ["LoRa Gateway", "Satellite Uplink", "GPS"]
+    },
+    {
+      id: "drone-relay-2",
+      callSign: "Malla-Delta-2",
+      role: "relay" as const,
+      status: "active" as const,
+      battery: 93,
+      coordinates: {
+        lat: -33.4509,
+        lng: -70.6713,
+        city: "Santiago",
+        region: "Metropolitana"
+      },
+      altitude: 210,
+      speed: 3.2,
+      meshRange: 1200,
+      payload: ["LoRa Gateway", "Satellite Uplink", "GPS"]
+    },
+    {
+      id: "drone-relay-3",
+      callSign: "Malla-Delta-3",
+      role: "relay" as const,
+      status: "active" as const,
+      battery: 91,
+      coordinates: {
+        lat: -35.4284,
+        lng: -71.6574,
+        city: "Talca",
+        region: "Maule"
+      },
+      altitude: 205,
+      speed: 3.1,
+      meshRange: 1200,
+      payload: ["LoRa Gateway", "Satellite Uplink", "GPS"]
+    },
+    {
+      id: "drone-relay-4",
+      callSign: "Malla-Delta-4",
+      role: "relay" as const,
+      status: "active" as const,
+      battery: 94,
+      coordinates: {
+        lat: -38.7379,
+        lng: -72.6022,
+        city: "Temuco",
+        region: "Araucanía"
+      },
+      altitude: 215,
       speed: 3.0,
       meshRange: 1200,
       payload: ["LoRa Gateway", "Satellite Uplink", "GPS"]
