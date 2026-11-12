@@ -49,15 +49,15 @@ export default function HomePage(): JSX.Element {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
-      {/* Header Profesional */}
+      {/* Header Profesional - Más compacto */}
       <header className="border-b border-slate-800 bg-slate-900/95 backdrop-blur-md sticky top-0 z-50 shadow-lg shadow-black/20">
-        <div className="max-w-[1800px] mx-auto px-6 py-4">
+        <div className="max-w-[1800px] mx-auto px-4 sm:px-6 py-3">
           <div className="flex items-center justify-between">
-            {/* Logo y Título */}
-            <div className="flex items-center gap-4">
-              <div className="w-11 h-11 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-blue-500/25 transition-transform hover:scale-105">
+            {/* Logo y Título - Más compacto */}
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-blue-500/25 transition-transform hover:scale-105">
                 <svg
-                  className="w-6 h-6 text-white"
+                  className="w-5 h-5 text-white"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -71,13 +71,13 @@ export default function HomePage(): JSX.Element {
                 </svg>
               </div>
               <div>
-                <h1 className="text-xl font-bold text-white tracking-tight">ResilienceMesh Chile</h1>
-                <p className="text-xs text-slate-400">Centro de Comando de Emergencias</p>
+                <h1 className="text-lg sm:text-xl font-bold text-white tracking-tight">ResilienceMesh Chile</h1>
+                <p className="text-[10px] sm:text-xs text-slate-400">Centro de Comando de Emergencias</p>
               </div>
             </div>
 
             {/* Selector de Escenarios */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <div className="hidden md:flex items-center gap-2 text-xs text-slate-400">
                 <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
                 <span>Sistema Operativo</span>
@@ -95,16 +95,16 @@ export default function HomePage(): JSX.Element {
       </header>
 
       {/* Main Dashboard Grid */}
-      <main className="max-w-[1800px] mx-auto p-6 space-y-6">
-        {/* KPIs Row */}
+      <main className="max-w-[1800px] mx-auto p-4 sm:p-6 space-y-4">
+        {/* KPIs Row - Más compacta */}
         <div className="animate-fadeIn">
           <MetricsPanel selectedScenario={selectedScenario} />
         </div>
 
         {/* Main Content Grid - 4 columnas en desktop */}
-        <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 xl:grid-cols-4 gap-4">
           {/* Columna Izquierda - Controles y Telemetría */}
-          <div className="space-y-6">
+          <div className="space-y-4">
             {/* Control de Simulación */}
             <div className="animate-slideUp">
               <SimulationControlPanel />
